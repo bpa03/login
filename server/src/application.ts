@@ -1,15 +1,17 @@
 import express, { Application as ExpressApp } from 'express';
-import path from 'path';
-import dotenv from 'dotenv';
 
+// Env file config
+import './config';
+// Database
+import connect from './database';
 class Application {
   application: ExpressApp = express();
 
   constructor() {
-    this.loadConfig();
     this.middlewares();
+    this.loadConfig();
     this.loadRoutes();
-    this.application.set('PORT', process.env.PORT || 3000);
+    this.loadDB();
   }
 
   private middlewares(): void {
@@ -18,10 +20,11 @@ class Application {
   }
 
   private loadConfig(): void {
-    dotenv.config({
-      path: path.resolve(__dirname, '../.env'),
-      debug: true,
-    });
+    this.application.set('PORT', process.env.PORT ?? 3000);
+  }
+
+  private loadDB(): void {
+    connect();
   }
 
   private loadRoutes(): void {
