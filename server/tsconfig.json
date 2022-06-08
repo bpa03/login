@@ -2,13 +2,15 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "allowSyntheticDefaultImports": true,
     "target": "ES6",
     "strict": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    
   },
   "include": ["src/**/*"],
   "exclude": ["./node_modules"]
