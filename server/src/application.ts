@@ -1,5 +1,6 @@
 import express, { Application as ExpressApp } from 'express';
 import morgan from 'morgan';
+import { errorLoger, errorMiddleware } from './middlewares/errorMiddleware';
 // Env file config
 import './config';
 // Routes
@@ -11,6 +12,7 @@ class Application {
     this.middlewares();
     this.loadConfig();
     this.loadRoutes();
+    this.loadErrorHandlers();
   }
 
   private middlewares(): void {
@@ -29,6 +31,11 @@ class Application {
 
   private loadRoutes(): void {
     this.application.use('/api', routes);
+  }
+
+  private loadErrorHandlers(): void {
+    this.application.use(errorLoger);
+    this.application.use(errorMiddleware);
   }
 
   public runServer(): void {
