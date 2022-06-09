@@ -1,9 +1,9 @@
 import express, { Application as ExpressApp } from 'express';
-
+import morgan from 'morgan';
 // Env file config
 import './config';
-// Database
-import connect from './database';
+// Routes
+import routes from './routes';
 class Application {
   application: ExpressApp = express();
 
@@ -11,26 +11,24 @@ class Application {
     this.middlewares();
     this.loadConfig();
     this.loadRoutes();
-    this.loadDB();
   }
 
   private middlewares(): void {
     this.application.use(express.json());
     this.application.use(express.urlencoded({ extended: true }));
+    if (process.env.NODE_ENV === 'development') {
+      this.application.use(
+        morgan('dev')
+      );
+    }
   }
 
   private loadConfig(): void {
     this.application.set('PORT', process.env.PORT ?? 3000);
   }
 
-  private loadDB(): void {
-    connect();
-  }
-
   private loadRoutes(): void {
-    this.application.get('/', (req, res) => {
-      res.status(200).json({ message: 'Hello, World! ' });
-    });
+    this.application.use('/api', routes);
   }
 
   public runServer(): void {
