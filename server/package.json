@@ -5,15 +5,17 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./dist/server.js",
-    "dev": "ts-node-dev ./src/server.ts",
+    "dev": "ts-node-dev ./src/server.ts NODE_OPTIONS='NODE_ENV=development'",
     "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
+    "@types/morgan": "^1.9.3",
     "@types/node": "^17.0.40",
     "nodemon": "^2.0.16",
     "ts-node": "^10.8.1",
@@ -21,9 +23,11 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-handler": "^1.2.0",
+    "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.20.1"
   }

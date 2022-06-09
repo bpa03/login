@@ -7,6 +7,7 @@ declare global {
       USER_DB?: string;
       PASSWORD_DB?: string;
       DB?: string;
+      NODE_ENV?: 'development' | 'production';
     }
   }
 }

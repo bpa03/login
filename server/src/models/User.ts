@@ -37,7 +37,8 @@ User.init(
   {
     id: {
       field: 'user_id',
-      type: DataTypes.UUIDV4,
+      type: DataTypes.UUID,
+      defaultValue: new DataTypes.UUIDV4(),
       primaryKey: true,
       allowNull: false,
     },
