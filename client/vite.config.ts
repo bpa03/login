@@ -1,4 +1,4 @@
-import { defineConfig, Alias, AliasOptions } from 'vite';
+import { defineConfig, Alias } from 'vite';
 import path from 'path';
 import react from '@vitejs/plugin-react';
 
@@ -11,10 +11,15 @@ const AppPath: Alias = {
 
 const AssetsPath: Alias = {
   find: 'assets',
-  replacement: path.resolve(__dirname, './assets')
+  replacement: path.resolve(__dirname, './assets'),
 };
 
-Paths.push(AppPath, AssetsPath);
+const ComponentsPath: Alias = {
+  find: 'components',
+  replacement: path.resolve(__dirname, './src/components'),
+};
+
+Paths.push(AppPath, AssetsPath, ComponentsPath);
 
 // https://vitejs.dev/config/
 export default defineConfig({

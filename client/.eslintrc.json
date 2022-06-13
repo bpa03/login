@@ -33,6 +33,7 @@
         "webp": "always"
       }
     ],
-    "react/jsx-fragments": [0]
+    "react/jsx-fragments": [0],
+    "react/button-has-type": [0]
   }
 }
