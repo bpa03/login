@@ -31,6 +31,13 @@ export const GlobalStyles = createGlobalStyle`
     max-width: 100%;
   }
 
+  input, button {
+    background: transparent;
+    outline: none;
+    border: none;
+    font-family: var(--font-family);
+  }
+
 `;
 
 export default GlobalStyles;
