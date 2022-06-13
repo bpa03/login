@@ -29,8 +29,10 @@
       {
         "tsx": "never",
         "ts": "never",
-        "css": "always"
+        "css": "always",
+        "webp": "always"
       }
-    ]
+    ],
+    "react/jsx-fragments": [0]
   }
 }
