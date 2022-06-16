@@ -19,7 +19,17 @@ const ComponentsPath: Alias = {
   replacement: path.resolve(__dirname, './src/components'),
 };
 
-Paths.push(AppPath, AssetsPath, ComponentsPath);
+const AppStorePath: Alias = {
+  find: 'app',
+  replacement: path.resolve(__dirname, './src/app'),
+};
+
+const HooksPath: Alias = {
+  find: 'hooks',
+  replacement: path.resolve(__dirname, './src/hooks'),
+};
+
+Paths.push(AppPath, AssetsPath, ComponentsPath, AppStorePath, HooksPath);
 
 // https://vitejs.dev/config/
 export default defineConfig({

@@ -4,7 +4,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "assets/*": ["./assets/*"],
-      "components/*": ["./src/components/*"]
+      "components/*": ["./src/components/*"],
+      "app/*": ["./src/app/*"],
+      "hooks/*": ["./src/hooks/*"],
     },
     "typeRoots": ["./node_modules/type", "./src/types"],
     "target": "ESNext",
