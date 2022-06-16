@@ -18,6 +18,7 @@ type Props = {
   formGroupPosition?: 'first' | 'last';
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value: string;
+  name: string;
 };
 
 type StyledComponentType = StyledComponent<'div', any, {}, never>;
@@ -29,6 +30,7 @@ const Input: FC<Props> = ({
   formGroupPosition,
   onChange,
   value,
+  name,
 }) => {
   let FormGroupType: StyledComponentType = FormGroup;
   const labelUp: boolean = !(value === '');
@@ -43,6 +45,7 @@ const Input: FC<Props> = ({
         {labelText}
       </Label>
       <InputField
+        name={name}
         type={inputType}
         id={forId}
         onChange={onChange}
