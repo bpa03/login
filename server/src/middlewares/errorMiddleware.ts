@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import ErrorHandler from '../errors/ErrorHanlder';
 
-export const errorLoger = (
+export const errorLogger = (
   err: Error,
   req: Request,
   res: Response,
@@ -25,9 +25,11 @@ export const errorMiddleware = (
   res.status(statusCode);
   res.header('Content-Type', 'application/problem+json');
   res.json({
-    success: false,
-    name: name,
-    message: message,
-    stack: stack,
+    errors: {
+      success: false,
+      name: name,
+      message: message,
+      stack: stack,
+    },
   });
 };

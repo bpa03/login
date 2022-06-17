@@ -8,6 +8,7 @@ declare global {
       PASSWORD_DB?: string;
       DB?: string;
       NODE_ENV?: 'development' | 'production';
+      JWT_SECRET: string;
     }
   }
 }

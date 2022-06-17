@@ -1,6 +1,7 @@
 import express, { Application as ExpressApp } from 'express';
 import morgan from 'morgan';
-import { errorLoger, errorMiddleware } from './middlewares/errorMiddleware';
+import cors from 'cors';
+import { errorLogger, errorMiddleware } from './middlewares/errorMiddleware';
 // Env file config
 import './config';
 // Routes
@@ -16,6 +17,9 @@ class Application {
   }
 
   private middlewares(): void {
+    this.application.use(cors({
+      origin: 'http://localhost:3000',
+    }))
     this.application.use(express.json());
     this.application.use(express.urlencoded({ extended: true }));
     if (process.env.NODE_ENV === 'development') {
@@ -34,7 +38,7 @@ class Application {
   }
 
   private loadErrorHandlers(): void {
-    this.application.use(errorLoger);
+    this.application.use(errorLogger);
     this.application.use(errorMiddleware);
   }
 
