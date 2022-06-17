@@ -17,4 +17,8 @@ export const ButtonField = styled.button`
     background-color: #0062cc;
     border: 1px solid #0062cc;
   }
+
+  &[disabled] {
+    opacity: .7;
+  }
 `;

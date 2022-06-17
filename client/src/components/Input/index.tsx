@@ -19,6 +19,7 @@ type Props = {
   onChange?: ChangeEventHandler<HTMLInputElement>;
   value: string;
   name: string;
+  disabled: boolean;
 };
 
 type StyledComponentType = StyledComponent<'div', any, {}, never>;
@@ -31,6 +32,7 @@ const Input: FC<Props> = ({
   onChange,
   value,
   name,
+  disabled,
 }) => {
   let FormGroupType: StyledComponentType = FormGroup;
   const labelUp: boolean = !(value === '');
@@ -51,6 +53,7 @@ const Input: FC<Props> = ({
         onChange={onChange}
         value={value}
         autoComplete="off"
+        disabled={disabled}
       />
     </FormGroupType>
   );

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-type LabelProps = {
+interface LabelProps {
   up: boolean;
-};
+}
 
 export const FormGroup = styled.div`
   overflow: hidden;
