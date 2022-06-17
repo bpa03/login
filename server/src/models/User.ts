@@ -15,7 +15,7 @@ type InferCreationUser = InferCreationAttributes<User>;
 class User extends Model<InferUser, InferCreationUser> {
   declare id: CreationOptional<string>;
   declare name: CreationOptional<string>;
-  declare lastname: CreationOptional<string>;
+  declare lastName: CreationOptional<string>;
   declare email: string;
   declare password: string;
   declare createdAt: CreationOptional<Date>;
@@ -25,11 +25,13 @@ class User extends Model<InferUser, InferCreationUser> {
     return bcrypt.hashSync(password, 10);
   }
 
-  public static comparePassword(
-    password: string,
-    userPassword: string
-  ): boolean {
-    return bcrypt.compareSync(password, userPassword);
+  public async comparePassword(password: string): Promise<boolean | undefined> {
+    try {
+      const isEqual = bcrypt.compare(password, this.password);
+      return isEqual;
+    } catch (error) {
+      Promise.reject(error);
+    }
   }
 }
 
@@ -46,7 +48,7 @@ User.init(
       type: new DataTypes.STRING(40),
       allowNull: true,
     },
-    lastname: {
+    lastName: {
       type: new DataTypes.STRING(40),
       allowNull: true,
     },

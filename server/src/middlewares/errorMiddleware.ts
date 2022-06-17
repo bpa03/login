@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import ErrorHandler from '../errors/ErrorHanlder';
+import HttpException from '../errors/ErrorHanlder';
 
 export const errorLogger = (
-  err: Error,
+  err: HttpException,
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,7 +12,7 @@ export const errorLogger = (
 };
 
 export const errorMiddleware = (
-  err: ErrorHandler,
+  err: HttpException,
   req: Request,
   res: Response,
   next: NextFunction
