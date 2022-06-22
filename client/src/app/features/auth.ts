@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import AuthService from '../services/auth';
-import { ErrorResponse } from '../services/interfaces';
 import { RootState } from '../store';
+import {
+  ErrorResponse,
+  CredentialsRegister,
+  CredentialsLogin,
+} from '../services/interfaces';
 
 type Token = string;
 
@@ -14,11 +18,24 @@ type AuthState = {
 
 export const thunkRegisterUser = createAsyncThunk<
   { token: Token; success: boolean },
-  { email: string; password: string },
+  CredentialsRegister,
   { rejectValue: ErrorResponse }
 >('auth/registerUser', async (args, { rejectWithValue }) => {
   try {
     const response = await AuthService.register(args);
+    return response;
+  } catch (error) {
+    return rejectWithValue(error as ErrorResponse);
+  }
+});
+
+export const thunkLoginUser = createAsyncThunk<
+  { token: Token; success: boolean },
+  CredentialsLogin,
+  { rejectValue: ErrorResponse }
+>('auth/loginUser', async (args, { rejectWithValue }) => {
+  try {
+    const response = await AuthService.login(args);
     return response;
   } catch (error) {
     return rejectWithValue(error as ErrorResponse);
@@ -36,28 +53,33 @@ const slice = createSlice({
   reducers: {
     setCredentials: (
       state,
-      { payload: { token } }: PayloadAction<{ token: string }>,
+      { payload }: PayloadAction<{ token: string; success: boolean }>,
     ) => {
-      state.token = token;
+      if (payload.success) {
+        state.token = payload.token;
+        state.isAuth = true;
+        state.authLoading = false;
+      }
+    },
+    setError: (
+      state,
+      { payload }: PayloadAction<{ errors: ErrorResponse }>,
+    ) => {
+      state.authLoading = false;
+      state.isAuth = false;
+      state.errors = payload.errors;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(thunkRegisterUser.pending, (state) => {
       state.authLoading = true;
     });
-    builder.addCase(thunkRegisterUser.fulfilled, (state, action) => {
-      state.authLoading = false;
-      state.isAuth = true;
-      state.token = action.payload.token;
-    });
-    builder.addCase(thunkRegisterUser.rejected, (state, action) => {
-      state.authLoading = false;
-      state.isAuth = false;
-      state.errors = action.payload ? action.payload : null;
+    builder.addCase(thunkLoginUser.pending, (state) => {
+      state.authLoading = true;
     });
   },
 });
 
 export default slice.reducer;
-export const { setCredentials } = slice.actions;
+export const { setCredentials, setError } = slice.actions;
 export const selectAuthState = (state: RootState) => state.auth;

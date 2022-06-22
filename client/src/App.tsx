@@ -5,9 +5,9 @@ import RequireAuth from 'app/features/RequireAuth';
 import GlobalStyles from './GlobalStyles';
 // Views
 import Register from '@/views/Register';
+import Login from '@/views/Login';
 
 const Home = () => <h1>Home</h1>;
-const Login = () => <h1>Login</h1>;
 const DashBoard = () => <h1>Dashboard</h1>;
 
 const App: FC = () => (
