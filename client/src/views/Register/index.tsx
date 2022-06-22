@@ -1,13 +1,15 @@
 import { FC } from 'react';
+// Generic Components
 import Input from 'components/Input';
 import Button from 'components/Button';
 // Hooks
+import { useNavigate } from 'react-router-dom';
 import useForm from 'hooks/useForm';
 import useAuth from 'hooks/useAuth';
 import { useAppDispatch } from 'app/hooks';
-import { useNavigate } from 'react-router-dom';
 // Thunk Action Creator
-import { thunkRegisterUser } from 'app/features/auth';
+import { thunkRegisterUser, setCredentials, setError } from 'app/features/auth';
+import { ErrorResponse } from 'app/services/interfaces';
 
 // Styles
 import {
@@ -23,6 +25,8 @@ type FormType = {
   email: string;
   password: string;
   repeatPassword: string;
+  name: string;
+  lastName: string;
 };
 
 const Register: FC = () => {
@@ -33,15 +37,28 @@ const Register: FC = () => {
     {
       email: '',
       password: '',
+      name: 'Baldassare',
+      lastName: 'Pugliese',
       repeatPassword: '',
     },
-    async (values) => {
-      dispatch(
-        thunkRegisterUser({
-          email: values.email,
-          password: values.password,
-        }),
-      );
+    async ({
+      email, password, name, lastName,
+    }): Promise<void> => {
+      try {
+        const credentialsRegister = {
+          email, password, name, lastName,
+        };
+        const res = await dispatch(
+          thunkRegisterUser(credentialsRegister),
+        ).unwrap();
+        if (res.success) {
+          dispatch(setCredentials(res));
+          navigate('/dashboard', { replace: true });
+        }
+      } catch (error) {
+        const errors = error as ErrorResponse;
+        dispatch(setError({ errors }));
+      }
     },
   );
 

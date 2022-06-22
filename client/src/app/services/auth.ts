@@ -1,4 +1,10 @@
-import { JSONResponse, ServiceBase } from './interfaces';
+/* eslint-disable operator-linebreak */
+import {
+  JSONResponse,
+  ServiceBase,
+  CredentialsRegister,
+  CredentialsLogin,
+} from './interfaces';
 
 class AuthServices implements ServiceBase {
   declare BASE_URL: string;
@@ -11,24 +17,41 @@ class AuthServices implements ServiceBase {
     this.LOGIN_URI = '/login';
   }
 
-  async register(credentials: {
-    email: string;
-    password: string;
-  }): Promise<{ token: string; success: true }> {
+  async register(
+    credentials: CredentialsRegister,
+  ): Promise<{ token: string; success: boolean }> {
     const response = await window.fetch(
       `${this.BASE_URL}${this.REGISTER_URI}`,
       {
         method: 'POST',
         body: JSON.stringify(credentials),
+        credentials: 'include',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
         },
       },
     );
-    // eslint-disable-next-line operator-linebreak
-    const { data, errors }: JSONResponse<{ token: string; success: true }> =
+    const { data, errors }: JSONResponse<{ token: string; success: boolean }> =
       await response.json();
     return response.ok && data ? data : Promise.reject(errors);
+  }
+
+  async login(
+    credentials: CredentialsLogin,
+  ): Promise<{ token: string; success: boolean }> {
+    const response = await window.fetch(`${this.BASE_URL}${this.LOGIN_URI}`, {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { data, errors }: JSONResponse<{ token: string; success: boolean }> =
+      await response.json();
+    return response.ok && data?.success ? data : Promise.reject(errors);
   }
 }
 
