@@ -12,6 +12,7 @@ import { sequelize } from '../database';
 
 type InferUser = InferAttributes<User>;
 type InferCreationUser = InferCreationAttributes<User>;
+
 class User extends Model<InferUser, InferCreationUser> {
   declare id: CreationOptional<string>;
   declare name: CreationOptional<string>;
