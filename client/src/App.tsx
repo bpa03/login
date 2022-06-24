@@ -6,16 +6,15 @@ import GlobalStyles from './GlobalStyles';
 // Views
 import Register from '@/views/Register';
 import Login from '@/views/Login';
-
-const Home = () => <h1>Home</h1>;
-const DashBoard = () => <h1>Dashboard</h1>;
+import Dashboard from '@/views/Dashboard';
+import Home from '@/views/Home';
 
 const App: FC = () => (
   <Fragment>
     <Routes>
       <Route element={<RequireAuth />}>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
