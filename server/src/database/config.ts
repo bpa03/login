@@ -6,4 +6,5 @@ export const DatabaseOptions: Options = {
   username: process.env.USER_DB ?? 'root',
   database: process.env.DB ?? 'db',
   password: process.env.PASSWORD_DB ?? '',
+  logging: false
 };

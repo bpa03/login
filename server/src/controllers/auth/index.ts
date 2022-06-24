@@ -39,6 +39,8 @@ export const registerUser = asyncHandler(
       const newUser = await User.create(newUserBody, { isNewRecord: true });
       const userJson = newUser.toJSON();
       const token = createToken(userJson);
+      req.session.authorized = true;
+      req.session.userId = userJson.id;
       res.status(201);
       res.json({ data: { token, success: true } });
     } catch (e) {
@@ -46,6 +48,30 @@ export const registerUser = asyncHandler(
         throw new HttpException(400, e.message);
       }
     }
+  }
+);
+
+export const authorizeUser = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.session.authorized && !req.session.userId) {
+      throw new HttpException(401, 'Unauthorized');
+    }
+
+    const { userId } = req.session;
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new HttpException(401, 'Unathorized');
+    }
+
+    const userJson = user.toJSON();
+    const token = createToken(userJson);
+    res.status(200).json({
+      data: {
+        success: true,
+        token,
+      },
+    });
   }
 );
 
@@ -71,6 +97,8 @@ export const LoginUser = asyncHandler(
 
     const userJson = user.toJSON();
     const token = createToken(userJson);
+    req.session.authorized = true;
+    req.session.userId = userJson.id;
     res.status(200).json({
       data: {
         success: true,
