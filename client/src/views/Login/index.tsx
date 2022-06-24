@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 // Generic Components
 import Input from 'components/Input';
 import Button from 'components/Button';
@@ -30,6 +30,7 @@ const Login: FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [errors, setErrors] = useState<ErrorResponse | null>(null);
   const [formValues, handleChange, handleSubmit] = useForm<FormType>(
     {
       email: '',
@@ -46,7 +47,8 @@ const Login: FC = () => {
           navigate('/dashboard', { replace: true });
         }
       } catch (error) {
-        dispatch(setError({ errors: error as ErrorResponse }));
+        dispatch(setError());
+        setErrors(error as ErrorResponse);
       }
     },
   );

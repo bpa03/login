@@ -2,9 +2,9 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import AuthService from '../services/auth';
 import { RootState } from '../store';
 import {
-  ErrorResponse,
   CredentialsRegister,
   CredentialsLogin,
+  ErrorResponse,
 } from '../services/interfaces';
 
 type Token = string;
@@ -12,7 +12,6 @@ type Token = string;
 type AuthState = {
   token: Token | null;
   authLoading: boolean;
-  errors: ErrorResponse | null;
   isAuth: boolean;
 };
 
@@ -42,13 +41,25 @@ export const thunkLoginUser = createAsyncThunk<
   }
 });
 
+export const thunkAuthorizeUser = createAsyncThunk<
+  { token: string; success: boolean },
+  null,
+  { rejectValue: ErrorResponse }
+>('auth/authorizeUser', async (args, { rejectWithValue }) => {
+  try {
+    const response = await AuthService.authorize();
+    return response;
+  } catch (error) {
+    return rejectWithValue(error as ErrorResponse);
+  }
+});
+
 const slice = createSlice({
   name: 'auth',
   initialState: {
     token: '',
     authLoading: false,
     isAuth: false,
-    errors: null,
   } as AuthState,
   reducers: {
     setCredentials: (
@@ -63,11 +74,9 @@ const slice = createSlice({
     },
     setError: (
       state,
-      { payload }: PayloadAction<{ errors: ErrorResponse }>,
     ) => {
       state.authLoading = false;
       state.isAuth = false;
-      state.errors = payload.errors;
     },
   },
   extraReducers: (builder) => {
@@ -75,6 +84,9 @@ const slice = createSlice({
       state.authLoading = true;
     });
     builder.addCase(thunkLoginUser.pending, (state) => {
+      state.authLoading = true;
+    });
+    builder.addCase(thunkAuthorizeUser.pending, (state) => {
       state.authLoading = true;
     });
   },

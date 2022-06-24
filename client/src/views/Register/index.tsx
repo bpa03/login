@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 // Generic Components
 import Input from 'components/Input';
 import Button from 'components/Button';
@@ -33,6 +33,7 @@ const Register: FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [errors, setErrors] = useState<ErrorResponse | null>(null);
   const [formValues, handleChange, handleSubmit] = useForm<FormType>(
     {
       email: '',
@@ -56,8 +57,8 @@ const Register: FC = () => {
           navigate('/dashboard', { replace: true });
         }
       } catch (error) {
-        const errors = error as ErrorResponse;
-        dispatch(setError({ errors }));
+        dispatch(setError());
+        setErrors(error as ErrorResponse);
       }
     },
   );
