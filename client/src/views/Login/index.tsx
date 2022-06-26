@@ -19,6 +19,9 @@ import {
   FormTitle,
   FormWrapper,
   BgImage,
+  FormLink,
+  Span,
+  LinkWrapper,
 } from './styles';
 
 interface FormType {
@@ -88,6 +91,10 @@ const Login: FC = () => {
               disabled={authLoading}
             />
           </div>
+          <LinkWrapper>
+            <Span>¿Aún no tienes cuenta?</Span>
+            <FormLink to="/register">Registrate</FormLink>
+          </LinkWrapper>
           <div>
             <Button buttonType="submit" disabled={authLoading}>
               Iniciar Sesión

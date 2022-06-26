@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 // Assets
 import formBackground from 'assets/form-background.webp';
 
@@ -42,4 +43,21 @@ export const Form = styled.form`
   gap: 2rem;
   flex-direction: column;
   margin-top: 1.8rem;
+`;
+
+export const LinkWrapper = styled.div`
+  text-align: center;
+`;
+
+export const Span = styled.span`
+  color: rgb(33, 37, 41);
+  font-weight: 400;
+  font-size: 1rem;
+  margin-right: 6px;
+`;
+
+export const FormLink = styled(Link)`
+  font-size: 1rem;
+  color: #0069D9;
+  text-decoration: none;
 `;

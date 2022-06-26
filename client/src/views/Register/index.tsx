@@ -19,6 +19,9 @@ import {
   FormWrapper,
   FormTitle,
   FormSlogan,
+  FormLink,
+  Span,
+  LinkWrapper,
 } from './styles';
 
 type FormType = {
@@ -107,9 +110,13 @@ const Register: FC = () => {
               disabled={authLoading}
             />
           </div>
+          <LinkWrapper>
+            <Span>¿Tienes cuenta?</Span>
+            <FormLink to="/login">Inicia Sesión</FormLink>
+          </LinkWrapper>
           <div>
             <Button buttonType="submit" disabled={authLoading}>
-              Registrarse
+              Iniciar Sesión
             </Button>
           </div>
         </Form>
