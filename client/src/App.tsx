@@ -1,6 +1,7 @@
 import { FC, Fragment } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import RequireAuth from 'app/features/RequireAuth';
+import IsAuthenticated from 'app/features/IsAuthenticated';
 // Global Styles
 import GlobalStyles from './GlobalStyles';
 // Views
@@ -16,8 +17,10 @@ const App: FC = () => (
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route element={<IsAuthenticated />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Route>
     </Routes>
     <GlobalStyles />
   </Fragment>
