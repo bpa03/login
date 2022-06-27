@@ -11,12 +11,14 @@ class AuthServices implements ServiceBase {
   declare REGISTER_URI: string;
   declare LOGIN_URI: string;
   declare AUTHORIZE_URI: string;
+  declare LOGOUT_URI: string;
 
   constructor() {
     this.BASE_URL = import.meta.env.VITE_API_BASE_URL;
     this.REGISTER_URI = '/register';
     this.LOGIN_URI = '/login';
     this.AUTHORIZE_URI = '/login/authorize';
+    this.LOGOUT_URI = '/logout';
   }
 
   async register(
@@ -68,6 +70,20 @@ class AuthServices implements ServiceBase {
     const { data, errors }: JSONResponse<{ token: string; success: boolean }> =
       await response.json();
     return response.ok && data?.success ? data : Promise.reject(errors);
+  }
+
+  async logout(): Promise<void> {
+    const response = await window.fetch(`${this.BASE_URL}${this.LOGOUT_URI}`, {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'cors',
+    });
+    if (response.ok) {
+      return Promise.resolve();
+    }
+
+    const { errors }: JSONResponse<{}> = await response.json();
+    return Promise.reject(errors);
   }
 }
 

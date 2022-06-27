@@ -37,7 +37,7 @@ const RequireAuth: FC<{}> = () => {
   }
 
   if (!isAuth) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace state={{ redirected: true }} />;
   }
 
   return <Outlet />;

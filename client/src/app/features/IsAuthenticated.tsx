@@ -1,17 +1,35 @@
 import { FC, useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import {
+  Outlet, useNavigate, useLocation, Location,
+} from 'react-router-dom';
 
 // hooks
 import { useAppDispatch } from '../hooks';
 // Thunk action creators
 import { thunkAuthorizeUser, setCredentials, setError } from './auth';
 
+interface LocationType extends Location {
+  state: {
+    fromLogout?: boolean;
+    redirected?: boolean;
+  };
+}
+
 const IsAuthenticated: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation() as LocationType;
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const state = location.state ?? {};
+    const { fromLogout = false, redirected = false } = state;
+
+    if (fromLogout || redirected) {
+      setLoading(false);
+      return;
+    }
+
     const request = async () => {
       try {
         const response = await dispatch(thunkAuthorizeUser(null)).unwrap();

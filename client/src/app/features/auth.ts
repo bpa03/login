@@ -54,6 +54,19 @@ export const thunkAuthorizeUser = createAsyncThunk<
   }
 });
 
+export const thunkLogoutUser = createAsyncThunk<
+  void,
+  null,
+  { rejectValue: ErrorResponse }
+>('auth/logoutUser', async (args, { rejectWithValue }) => {
+  try {
+    await AuthService.logout();
+    return Promise.resolve();
+  } catch (error) {
+    return rejectWithValue(error as ErrorResponse);
+  }
+});
+
 const slice = createSlice({
   name: 'auth',
   initialState: {
@@ -72,10 +85,12 @@ const slice = createSlice({
         state.authLoading = false;
       }
     },
-    setError: (
-      state,
-    ) => {
+    setError: (state) => {
       state.authLoading = false;
+      state.isAuth = false;
+    },
+    deleteCredentials: (state) => {
+      state.token = '';
       state.isAuth = false;
     },
   },
@@ -93,5 +108,5 @@ const slice = createSlice({
 });
 
 export default slice.reducer;
-export const { setCredentials, setError } = slice.actions;
+export const { setCredentials, setError, deleteCredentials } = slice.actions;
 export const selectAuthState = (state: RootState) => state.auth;
