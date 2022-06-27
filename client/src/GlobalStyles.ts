@@ -4,6 +4,9 @@ export const GlobalStyles = createGlobalStyle`
   :root {
     --font-family: 'Roboto', sans-serif;
     --font-size: 18px;
+    --toastify-font-family: var(--font-family);
+    --toastify-text-color-light: rgb(33, 37, 41);
+    --toastify-color-error: rgba(255, 0, 0, .5);
   }
 
   html {
