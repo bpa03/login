@@ -50,8 +50,8 @@ export const LinkWrapper = styled.div`
 `;
 
 export const Span = styled.span`
-  color: rgb(33, 37, 41);
-  font-weight: 400;
+  color: #b3b3b3;
+  font-weight: 300;
   font-size: 1rem;
   margin-right: 6px;
 `;

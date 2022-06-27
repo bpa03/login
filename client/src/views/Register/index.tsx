@@ -41,8 +41,8 @@ const Register: FC = () => {
     {
       email: '',
       password: '',
-      name: 'Baldassare',
-      lastName: 'Pugliese',
+      name: '',
+      lastName: '',
       repeatPassword: '',
     },
     async ({
@@ -66,7 +66,9 @@ const Register: FC = () => {
     },
   );
 
-  const { email, password, repeatPassword } = formValues;
+  const {
+    email, password, repeatPassword, name, lastName,
+  } = formValues;
   const { authLoading } = auth;
 
   return (
@@ -88,6 +90,24 @@ const Register: FC = () => {
               formGroupPosition="first"
               onChange={handleChange}
               value={email}
+              disabled={authLoading}
+            />
+            <Input
+              labelText="Name"
+              name="name"
+              forId="name"
+              inputType="text"
+              onChange={handleChange}
+              value={name}
+              disabled={authLoading}
+            />
+            <Input
+              labelText="Lastname"
+              name="lastName"
+              forId="lastName"
+              inputType="text"
+              onChange={handleChange}
+              value={lastName}
               disabled={authLoading}
             />
             <Input

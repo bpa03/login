@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import formBackground from 'assets/form-background.webp';
 
 export const Container = styled.div`
-  max-height: 100vh;
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 50% 50%;
   overflow: hidden;
@@ -22,6 +22,7 @@ export const FormWrapper = styled.div`
   max-width: 58.333%;
   margin: 0 auto;
   display: flex;
+  padding: 3.5rem 0;
   flex-direction: column;
   justify-content: center;
 `;
@@ -50,8 +51,8 @@ export const LinkWrapper = styled.div`
 `;
 
 export const Span = styled.span`
-  color: rgb(33, 37, 41);
-  font-weight: 400;
+  color: #b3b3b3;
+  font-weight: 300;
   font-size: 1rem;
   margin-right: 6px;
 `;
