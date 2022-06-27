@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 
 // Redux store
 import store from 'app/store';
+// React-tostify styles
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import App from '@/App';
 
