@@ -30,7 +30,7 @@ export const registerUser = asyncHandler(
     });
 
     if (userExists) {
-      const message = `The user with email ${email} has been registred`;
+      const message = `Invalid email or username`;
       throw new HttpException(400, message);
     }
 
@@ -96,8 +96,8 @@ export const LoginUser = asyncHandler(
     });
 
     if (!user) {
-      const message = `User with email ${email} does not exists`;
-      throw new HttpException(400, message);
+      const message = `Invalid email or password`;
+      throw new HttpException(401, message);
     }
 
     const isEqual = await user.comparePassword(password);
