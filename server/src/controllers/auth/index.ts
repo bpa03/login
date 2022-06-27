@@ -51,6 +51,17 @@ export const registerUser = asyncHandler(
   }
 );
 
+export const logoutUser = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (req.session.authorized && req.session.userId) {
+      req.session.destroy((err) => {
+        console.log(err);
+      });
+      res.status(204).send();
+    }
+  }
+);
+
 export const authorizeUser = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.session.authorized && !req.session.userId) {
