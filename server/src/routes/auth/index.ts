@@ -1,13 +1,35 @@
 import { Router } from 'express';
+import { body } from 'express-validator';
+import { validationForm } from '../../middlewares/validationForm';
 
 // Controllers
-import { registerUser, LoginUser, authorizeUser, logoutUser } from '../../controllers/auth';
+import {
+  registerUser,
+  loginUser,
+  authorizeUser,
+  logoutUser,
+} from '../../controllers/auth';
 
 const router = Router();
 
 router.post('/register', registerUser);
 router.get('/logout', logoutUser);
 router.get('/login/authorize', authorizeUser);
-router.post('/login', LoginUser);
+
+// Login controller
+router.post(
+  '/login',
+  body('email')
+    .normalizeEmail()
+    .trim()
+    .isEmail()
+    .withMessage('Invalid username'),
+  body('password')
+    .isAlphanumeric()
+    .isLength({ min: 8 })
+    .withMessage('Invalid password'),
+  validationForm,
+  loginUser
+);
 
 export default router;
