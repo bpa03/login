@@ -30,7 +30,7 @@ export const registerUser = asyncHandler(
     });
 
     if (userExists) {
-      const message = `Invalid email or username`;
+      const message = `Invalid register credentials`;
       throw HttpException.fromAuthError(400, message);
     }
 
@@ -94,13 +94,13 @@ export const loginUser = asyncHandler(
     });
 
     if (!user) {
-      const message = `Invalid email or password (email)`;
+      const message = `Invalid credentials`;
       throw HttpException.fromAuthError(401, message);
     }
 
     const isEqual = await user.comparePassword(password);
     if (!isEqual) {
-      const message = 'Invalid email or password';
+      const message = 'Invalid credentials';
       throw HttpException.fromAuthError(401, message);
     }
 
