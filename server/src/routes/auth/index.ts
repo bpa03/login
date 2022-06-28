@@ -12,7 +12,30 @@ import {
 
 const router = Router();
 
-router.post('/register', registerUser);
+// Register controller
+router.post(
+  '/register',
+  body('email')
+    .normalizeEmail({ all_lowercase: true })
+    .toLowerCase()
+    .trim()
+    .isEmail()
+    .withMessage('Invalid username or email'),
+  body('password')
+    .isAlphanumeric('en-US')
+    .isLength({ min: 8 })
+    .withMessage('Invalid Password'),
+  body('name')
+    .trim()
+    .isAlpha()
+    .withMessage('The name can only have letters'),
+  body('lastName')
+    .trim()
+    .isAlpha()
+    .withMessage('The last name can only have letters'),
+  validationForm,
+  registerUser
+);
 router.get('/logout', logoutUser);
 router.get('/login/authorize', authorizeUser);
 
@@ -20,10 +43,11 @@ router.get('/login/authorize', authorizeUser);
 router.post(
   '/login',
   body('email')
-    .normalizeEmail()
+    .normalizeEmail({ all_lowercase: true })
+    .toLowerCase()
     .trim()
     .isEmail()
-    .withMessage('Invalid username'),
+    .withMessage('Invalid username or email'),
   body('password')
     .isAlphanumeric()
     .isLength({ min: 8 })
