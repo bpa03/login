@@ -31,7 +31,7 @@ export const registerUser = asyncHandler(
 
     if (userExists) {
       const message = `Invalid email or username`;
-      throw new HttpException(400, message);
+      throw HttpException.fromAuthError(400, message);
     }
 
     try {
@@ -45,34 +45,32 @@ export const registerUser = asyncHandler(
       res.json({ data: { token, success: true } });
     } catch (e) {
       if (e instanceof UniqueConstraintError) {
-        throw new HttpException(400, e.message);
+        throw HttpException.fromAuthError(400, e.message);
       }
     }
   }
 );
 
-export const logoutUser = asyncHandler(
-  async (req: Request, res: Response) => {
-    if (req.session.authorized && req.session.userId) {
-      req.session.destroy((err) => {
-        console.log(err);
-      });
-      res.status(204).send();
-    }
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  if (req.session.authorized && req.session.userId) {
+    req.session.destroy((err) => {
+      console.log(err);
+    });
+    res.status(204).send();
   }
-);
+});
 
 export const authorizeUser = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.session.authorized && !req.session.userId) {
-      throw new HttpException(401, 'Unauthorized');
+      throw HttpException.fromAuthError(401, 'Unauthorized');
     }
 
     const { userId } = req.session;
     const user = await User.findOne({ where: { id: userId } });
 
     if (!user) {
-      throw new HttpException(401, 'Unathorized');
+      throw HttpException.fromAuthError(401, 'Unathorized');
     }
 
     const userJson = user.toJSON();
@@ -86,7 +84,7 @@ export const authorizeUser = asyncHandler(
   }
 );
 
-export const LoginUser = asyncHandler(
+export const loginUser = asyncHandler(
   async (req: Request<{}, {}, RequestLoginUser>, res: Response) => {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -96,14 +94,14 @@ export const LoginUser = asyncHandler(
     });
 
     if (!user) {
-      const message = `Invalid email or password`;
-      throw new HttpException(401, message);
+      const message = `Invalid email or password (email)`;
+      throw HttpException.fromAuthError(401, message);
     }
 
     const isEqual = await user.comparePassword(password);
     if (!isEqual) {
       const message = 'Invalid email or password';
-      throw new HttpException(401, message);
+      throw HttpException.fromAuthError(401, message);
     }
 
     const userJson = user.toJSON();

@@ -20,16 +20,14 @@ export const errorMiddleware = (
   if (res.headersSent) {
     return next(err);
   }
-  const { statusCode, message, name, stack } = err;
+  const { statusCode, response } = err;
 
   res.status(statusCode);
   res.header('Content-Type', 'application/problem+json');
   res.json({
-    errors: {
+    error: {
       success: false,
-      name: name,
-      message: message,
-      stack: stack,
+      description: response,
     },
   });
 };
