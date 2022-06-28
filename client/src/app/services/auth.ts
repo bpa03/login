@@ -36,9 +36,9 @@ class AuthServices implements ServiceBase {
         },
       },
     );
-    const { data, errors }: JSONResponse<{ token: string; success: boolean }> =
+    const { data, error }: JSONResponse<{ token: string; success: boolean }> =
       await response.json();
-    return response.ok && data ? data : Promise.reject(errors);
+    return response.ok && data ? data : Promise.reject(error);
   }
 
   async login(
@@ -53,9 +53,9 @@ class AuthServices implements ServiceBase {
         'Content-Type': 'application/json',
       },
     });
-    const { data, errors }: JSONResponse<{ token: string; success: boolean }> =
+    const { data, error }: JSONResponse<{ token: string; success: boolean }> =
       await response.json();
-    return response.ok && data?.success ? data : Promise.reject(errors);
+    return response.ok && data?.success ? data : Promise.reject(error);
   }
 
   async authorize(): Promise<{ token: string; success: boolean }> {
@@ -67,9 +67,9 @@ class AuthServices implements ServiceBase {
         mode: 'cors',
       },
     );
-    const { data, errors }: JSONResponse<{ token: string; success: boolean }> =
+    const { data, error }: JSONResponse<{ token: string; success: boolean }> =
       await response.json();
-    return response.ok && data?.success ? data : Promise.reject(errors);
+    return response.ok && data?.success ? data : Promise.reject(error);
   }
 
   async logout(): Promise<void> {
@@ -82,8 +82,8 @@ class AuthServices implements ServiceBase {
       return Promise.resolve();
     }
 
-    const { errors }: JSONResponse<{}> = await response.json();
-    return Promise.reject(errors);
+    const { error }: JSONResponse<{}> = await response.json();
+    return Promise.reject(error);
   }
 }
 

@@ -1,13 +1,22 @@
 export interface ErrorResponse {
   success: boolean;
-  name: string;
-  message: string;
-  stack: string;
+  description:
+    | {
+        type: 'AE';
+        errors: string;
+      }
+    | {
+        type: 'FE';
+        errors: {
+          message: string;
+          param: string;
+        }[];
+      };
 }
 
 export interface JSONResponse<T> {
   data?: T;
-  errors: ErrorResponse;
+  error: ErrorResponse;
 }
 
 export interface CredentialsRegister {
