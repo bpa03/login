@@ -34,7 +34,10 @@ const Login: FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [hasError, setHasError] = useState<boolean | null>(null);
+  const [errors, setErrors] = useState<{
+    message: string;
+    param: string;
+  }[]>([]);
   const [formValues, handleChange, handleSubmit] = useForm<FormType>(
     {
       email: '',
@@ -52,11 +55,16 @@ const Login: FC = () => {
         }
       } catch (error) {
         dispatch(setError());
-        setHasError(true);
         const err = error as ErrorResponse;
-        toast(err.message, {
-          type: 'error',
-        });
+        if (err.description.type === 'AE') {
+          setErrors([]);
+          toast(err.description.errors, {
+            type: 'error',
+          });
+        }
+        if (err.description.type === 'FE') {
+          setErrors(err.description.errors);
+        }
       }
     },
   );
@@ -84,7 +92,7 @@ const Login: FC = () => {
               onChange={handleChange}
               value={email}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
             <Input
               labelText="Password"
@@ -95,7 +103,7 @@ const Login: FC = () => {
               onChange={handleChange}
               value={password}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
           </div>
           <LinkWrapper>
@@ -110,11 +118,7 @@ const Login: FC = () => {
         </Form>
       </FormWrapper>
       <BgImage />
-      <ToastContainer
-        autoClose={3000}
-        closeButton
-        closeOnClick
-      />
+      <ToastContainer autoClose={3000} closeButton closeOnClick />
     </Container>
   );
 };

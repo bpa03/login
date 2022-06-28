@@ -14,8 +14,9 @@ export const FormGroup = styled.div<InputProps>`
   border: 1px solid
     ${({ hasError }) => (hasError ? 'rgba(255, 0, 0, .4)' : '#efefef')};
   padding: 15px;
-  border-bottom: none;
+  border-bottom: ${({ hasError }) => (hasError ? '1px solid rgba(255, 0, 0, .4)' : 'none')};;
   position: relative;
+  transition: border .3s;
 `;
 
 export const FirstFormGroup = styled(FormGroup)`

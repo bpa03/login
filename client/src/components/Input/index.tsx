@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import { FC, ChangeEventHandler } from 'react';
+import { FC, ChangeEventHandler, useMemo } from 'react';
 import { StyledComponent } from 'styled-components';
 
 // Styles
@@ -20,10 +20,15 @@ type Props = {
   value: string;
   name: string;
   disabled: boolean;
-  error: boolean;
+  error: { message: string; param: string }[];
 };
 
-type StyledComponentType = StyledComponent<'div', any, { hasError: boolean }, never>;
+type StyledComponentType = StyledComponent<
+  'div',
+  any,
+  { hasError: boolean },
+  never
+>;
 
 const Input: FC<Props> = ({
   forId,
@@ -43,9 +48,15 @@ const Input: FC<Props> = ({
     FormGroupType = formGroupPosition === 'first' ? FirstFormGroup : LastFormGroup;
   }
 
+  const fieldError = useMemo(
+    () => error.find((err) => err.param === name),
+    [error],
+  );
+  const hasError = !!fieldError;
+
   return (
-    <FormGroupType hasError={error}>
-      <Label htmlFor={forId} up={labelUp} hasError={error}>
+    <FormGroupType hasError={hasError}>
+      <Label htmlFor={forId} up={labelUp} hasError={hasError}>
         {labelText}
       </Label>
       <InputField

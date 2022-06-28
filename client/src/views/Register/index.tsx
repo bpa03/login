@@ -37,7 +37,10 @@ const Register: FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [hasError, setHasError] = useState<boolean | null>(null);
+  const [errors, setErrors] = useState<{
+    message: string;
+    param: string;
+  }[]>([]);
   const [formValues, handleChange, handleSubmit] = useForm<FormType>(
     {
       email: '',
@@ -62,11 +65,16 @@ const Register: FC = () => {
         }
       } catch (error) {
         dispatch(setError());
-        setHasError(true);
         const err = error as ErrorResponse;
-        toast(err.message, {
-          type: 'error',
-        });
+        if (err.description.type === 'AE') {
+          setErrors([]);
+          toast(err.description.errors, {
+            type: 'error',
+          });
+        }
+        if (err.description.type === 'FE') {
+          setErrors(err.description.errors);
+        }
       }
     },
   );
@@ -96,7 +104,7 @@ const Register: FC = () => {
               onChange={handleChange}
               value={email}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
             <Input
               labelText="Name"
@@ -106,7 +114,7 @@ const Register: FC = () => {
               onChange={handleChange}
               value={name}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
             <Input
               labelText="Lastname"
@@ -116,7 +124,7 @@ const Register: FC = () => {
               onChange={handleChange}
               value={lastName}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
             <Input
               labelText="Password"
@@ -126,7 +134,7 @@ const Register: FC = () => {
               onChange={handleChange}
               value={password}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
             <Input
               labelText="Repeat Password"
@@ -137,7 +145,7 @@ const Register: FC = () => {
               onChange={handleChange}
               value={repeatPassword}
               disabled={authLoading}
-              error={!!hasError}
+              error={errors}
             />
           </div>
           <LinkWrapper>
