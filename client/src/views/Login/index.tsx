@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 // Generic Components
 import Input from 'components/Input';
 import Button from 'components/Button';
@@ -33,7 +34,7 @@ const Login: FC = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [errors, setErrors] = useState<ErrorResponse | null>(null);
+  const [hasError, setHasError] = useState<boolean | null>(null);
   const [formValues, handleChange, handleSubmit] = useForm<FormType>(
     {
       email: '',
@@ -51,7 +52,11 @@ const Login: FC = () => {
         }
       } catch (error) {
         dispatch(setError());
-        setErrors(error as ErrorResponse);
+        setHasError(true);
+        const err = error as ErrorResponse;
+        toast(err.message, {
+          type: 'error',
+        });
       }
     },
   );
@@ -79,6 +84,7 @@ const Login: FC = () => {
               onChange={handleChange}
               value={email}
               disabled={authLoading}
+              error={!!hasError}
             />
             <Input
               labelText="Password"
@@ -89,6 +95,7 @@ const Login: FC = () => {
               onChange={handleChange}
               value={password}
               disabled={authLoading}
+              error={!!hasError}
             />
           </div>
           <LinkWrapper>
@@ -103,6 +110,11 @@ const Login: FC = () => {
         </Form>
       </FormWrapper>
       <BgImage />
+      <ToastContainer
+        autoClose={3000}
+        closeButton
+        closeOnClick
+      />
     </Container>
   );
 };

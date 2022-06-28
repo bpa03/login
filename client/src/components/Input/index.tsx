@@ -20,9 +20,10 @@ type Props = {
   value: string;
   name: string;
   disabled: boolean;
+  error: boolean;
 };
 
-type StyledComponentType = StyledComponent<'div', any, {}, never>;
+type StyledComponentType = StyledComponent<'div', any, { hasError: boolean }, never>;
 
 const Input: FC<Props> = ({
   forId,
@@ -33,6 +34,7 @@ const Input: FC<Props> = ({
   value,
   name,
   disabled,
+  error,
 }) => {
   let FormGroupType: StyledComponentType = FormGroup;
   const labelUp: boolean = !(value === '');
@@ -42,8 +44,8 @@ const Input: FC<Props> = ({
   }
 
   return (
-    <FormGroupType>
-      <Label htmlFor={forId} up={labelUp}>
+    <FormGroupType hasError={error}>
+      <Label htmlFor={forId} up={labelUp} hasError={error}>
         {labelText}
       </Label>
       <InputField

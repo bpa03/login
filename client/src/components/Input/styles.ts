@@ -2,11 +2,17 @@ import styled from 'styled-components';
 
 interface LabelProps {
   up: boolean;
+  hasError: boolean;
 }
 
-export const FormGroup = styled.div`
+interface InputProps {
+  hasError: boolean;
+}
+
+export const FormGroup = styled.div<InputProps>`
   overflow: hidden;
-  border: 1px solid #efefef;
+  border: 1px solid
+    ${({ hasError }) => (hasError ? 'rgba(255, 0, 0, .4)' : '#efefef')};
   padding: 15px;
   border-bottom: none;
   position: relative;
@@ -20,7 +26,7 @@ export const FirstFormGroup = styled(FormGroup)`
 export const LastFormGroup = styled(FormGroup)`
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid ${({ hasError }) => (hasError ? 'rgba(255, 0, 0, .4)' : '#efefef')};;
 `;
 
 export const Label = styled.label<LabelProps>`
@@ -29,7 +35,7 @@ export const Label = styled.label<LabelProps>`
   transform: ${({ up }) => (up ? 'translateY(-190%)' : 'translateY(-50%)')};
   transition: 0.3s all ease;
   font-size: 0.667rem;
-  color: #b3b3b3;
+  color: ${({ hasError = false }) => (hasError ? 'rgba(255, 0, 0, .4)' : '#b3b3b3')};;
 `;
 
 export const Input = styled.input`
