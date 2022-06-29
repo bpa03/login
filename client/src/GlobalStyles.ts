@@ -4,6 +4,7 @@ export const GlobalStyles = createGlobalStyle`
   :root {
     --font-family: 'Roboto', sans-serif;
     --font-size: 18px;
+    --font-size-responsibe: 16px;
     --toastify-font-family: var(--font-family);
     --toastify-text-color-light: rgb(33, 37, 41);
     --toastify-color-error: rgba(255, 0, 0, .5);
@@ -12,7 +13,11 @@ export const GlobalStyles = createGlobalStyle`
   html {
     box-sizing: border-box;
     font-family: var(--font-family);
-    font-size: var(--font-size);
+    font-size: var(--font-size-responsibe);
+
+    @media only screen and (min-width: 768px) {
+      font-size: var(--font-size);
+    }
   }
 
   *, *:before, *:after {

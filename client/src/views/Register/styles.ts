@@ -4,17 +4,23 @@ import { Link } from 'react-router-dom';
 import formBackground from 'assets/form-background.webp';
 
 export const Container = styled.div`
-  min-height: 100vh;
   display: grid;
-  grid-template-columns: 50% 50%;
-  overflow: hidden;
+  grid-template-columns: 100%;
+  
+  @media only screen and (min-width: 1024px) {
+    & {
+      overflow: hidden;
+      grid-template-columns: 50% 50%;
+      min-height: 100vh;
+    }
+  }
 `;
 
 export const BgImage = styled.div`
   background: url(${formBackground}) no-repeat center;
   background-size: cover;
   background-clip: content-box;
-  min-height: 100vh;
+  min-height: 55vh;
 `;
 
 export const FormWrapper = styled.div`
@@ -25,6 +31,7 @@ export const FormWrapper = styled.div`
   padding: 3.5rem 0;
   flex-direction: column;
   justify-content: center;
+  min-height: 100vh;
 `;
 
 export const FormTitle = styled.h2`
